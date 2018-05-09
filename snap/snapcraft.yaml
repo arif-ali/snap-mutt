@@ -1,0 +1,73 @@
+name: mutt
+version: stable
+version-script: git -C parts/mutt/build describe --tags | sed "s/mutt\-//g"
+summary: Mutt
+description: |
+  Mutt is a sophisticated text-based Mail User Agent. Some highlights
+  * MIME support (including RFC1522 encoding/decoding of 8-bit message
+    headers and UTF-8 support).
+  * PGP/MIME support (RFC 2015).
+  * Advanced IMAP client supporting SSL encryption and SASL authentication.
+  * POP3 support.
+  * ESMTP support.
+  * Message threading (both strict and non-strict).
+  * Keybindings are configurable, default keybindings are much like ELM;
+    Mush and PINE-like ones are provided as examples.
+  * Handles MMDF, MH and Maildir in addition to regular mbox format.
+  * Messages may be (indefinitely) postponed.
+  * Colour support.
+  * Highly configurable through easy but powerful rc file.
+  * Support for compressed mailboxes.
+  * An optional Sidebar.
+
+grade: stable
+confinement: strict
+
+apps:
+  mutt:
+    environment:
+      HOME: "$SNAP_USER_COMMON"
+    command: mutt
+    plugs:
+      - network
+      - home
+
+parts:
+  mutt:
+    plugin: autotools
+    source: https://gitlab.com/muttmua/mutt.git
+    source-type: git
+    #source-tag: 'mutt-1-9-4-rel'
+    configflags: [--enable-compressed, --enable-debug, --enable-fcntl, --enable-hcache, --enable-gpgme, --enable-lua, --enable-imap, --enable-smtp, --enable-pop, --enable-sidebar, --enable-nntp, --disable-dotlock, --disable-fmemopen, --with-curses, --with-gnutls, --with-gss, --with-idn, --with-mixmaster, --with-sasl, --without-gdbm, --without-bdb, --without-qdbm]
+    build-packages:
+      - docbook-xml
+      - docbook-xsl
+      - gawk
+      - gettext
+      - libgnutls28-dev
+      - libgpgme11-dev
+      - libidn11-dev
+      - libkrb5-dev
+      - libncurses5-dev
+      - libncursesw5-dev
+      - libsasl2-dev
+      - libtokyocabinet-dev
+      - pkg-config
+      - w3m
+      - xsltproc
+      - zlib1g-dev
+    stage:
+      - -bin/mutt_dotlock
+    stage-packages:
+      - vim
+      - nano
+      - emacs-nox
+    prepare: |
+      last_committed_tag="$(git describe --tags --abbrev=0)"
+      last_released_tag="$(snap info mutt | awk '$1 == "beta:" { print $2 }')"
+      # If the latest tag from the upstream project has not been released to
+      # beta, build that tag instead of master.
+      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
+        git fetch
+        git checkout "${last_committed_tag}"
+      fi
