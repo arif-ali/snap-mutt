@@ -1,6 +1,4 @@
 name: mutt
-version: stable
-version-script: git -C parts/mutt/build describe --tags | sed "s/mutt\-//g"
 summary: Mutt
 description: |
   Mutt is a sophisticated text-based Mail User Agent. Some highlights
@@ -19,7 +17,8 @@ description: |
   * Highly configurable through easy but powerful rc file.
   * Support for compressed mailboxes.
   * An optional Sidebar.
-
+base: core18
+adopt-info: mutt
 grade: stable
 confinement: strict
 
@@ -56,13 +55,21 @@ parts:
       - w3m
       - xsltproc
       - zlib1g-dev
-    stage:
-      - -bin/mutt_dotlock
+#    stage:
+#      - -bin/mutt_dotlock
     stage-packages:
+      - vim-tiny
       - vim
       - nano
       - emacs-nox
-    override-build: |
+      - libassuan0
+      - libgpgme11
+      - libgpm2
+      - libsasl2-2
+      - libtokyocabinet9
+
+    override-pull: |
+      snapcraftctl pull
       last_committed_tag="$(git describe --tags --abbrev=0)"
       last_released_tag="$(snap info mutt | awk '$1 == "beta:" { print $2 }')"
       # If the latest tag from the upstream project has not been released to
@@ -71,4 +78,4 @@ parts:
         git fetch
         git checkout "${last_committed_tag}"
       fi
-      snapcraftctl build
+      snapcraftctl set-version "$(git describe --tags | sed 's/mutt\-//g')"
