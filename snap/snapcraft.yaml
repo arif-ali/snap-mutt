@@ -55,8 +55,8 @@ parts:
       - w3m
       - xsltproc
       - zlib1g-dev
-   stage:
-     - -bin/mutt_dotlock
+    stage:
+      - -bin/mutt_dotlock
     stage-packages:
       - vim-tiny
       - vim
