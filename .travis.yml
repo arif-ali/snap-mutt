@@ -1,4 +1,3 @@
-
 language: bash
 dist: xenial
 
@@ -12,7 +11,7 @@ env:
 addons:
   snaps:
     - name: snapcraft
-      channel: stable
+      channel: candidate
       classic: true
     - name: http
     - name: transfer
