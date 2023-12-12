@@ -18,9 +18,9 @@ description: |
   * Support for compressed mailboxes.
   * An optional Sidebar.
 base: core18
-adopt-info: mutt
 grade: stable
 confinement: strict
+version: 2-2-12-rel 
 
 apps:
   mutt:
@@ -36,7 +36,7 @@ parts:
     plugin: autotools
     source: https://gitlab.com/muttmua/mutt.git
     source-type: git
-    #source-tag: 'mutt-1-9-4-rel'
+    source-tag: mutt-$SNAPCRAFT_PROJECT_VERSION
     configflags: [--enable-compressed, --enable-debug, --enable-fcntl, --enable-hcache, --enable-gpgme, --enable-lua, --enable-imap, --enable-smtp, --enable-pop, --enable-sidebar, --enable-nntp, --disable-dotlock, --disable-fmemopen, --with-curses, --with-gnutls, --with-gss, --with-idn, --with-mixmaster, --with-sasl, --without-gdbm, --without-bdb, --without-qdbm]
     build-packages:
       - docbook-xml
@@ -67,15 +67,3 @@ parts:
       - libgpm2
       - libsasl2-2
       - libtokyocabinet9
-
-    override-pull: |
-      snapcraftctl pull
-      last_committed_tag="$(git describe --tags --abbrev=0)"
-      last_released_tag="$(snap info mutt | awk '$1 == "latest/beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-      fi
-      snapcraftctl set-version "$(git describe --tags | sed 's/mutt\-//g')"
