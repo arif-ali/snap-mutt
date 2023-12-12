@@ -17,16 +17,16 @@ description: |
   * Highly configurable through easy but powerful rc file.
   * Support for compressed mailboxes.
   * An optional Sidebar.
-base: core18
-adopt-info: mutt
+base: core22
 grade: stable
 confinement: strict
+version: 2-2-12-rel
 
 apps:
   mutt:
     environment:
       HOME: "$SNAP_USER_COMMON"
-    command: mutt
+    command: usr/local/bin/mutt
     plugs:
       - network
       - home
@@ -36,19 +36,18 @@ parts:
     plugin: autotools
     source: https://gitlab.com/muttmua/mutt.git
     source-type: git
-    #source-tag: 'mutt-1-9-4-rel'
-    configflags: [--enable-compressed, --enable-debug, --enable-fcntl, --enable-hcache, --enable-gpgme, --enable-lua, --enable-imap, --enable-smtp, --enable-pop, --enable-sidebar, --enable-nntp, --disable-dotlock, --disable-fmemopen, --with-curses, --with-gnutls, --with-gss, --with-idn, --with-mixmaster, --with-sasl, --without-gdbm, --without-bdb, --without-qdbm]
+    source-tag: mutt-$SNAPCRAFT_PROJECT_VERSION
+    autotools-configure-parameters: [--enable-compressed, --enable-debug, --enable-fcntl, --enable-hcache, --enable-gpgme, --enable-lua, --enable-imap, --enable-smtp, --enable-pop, --enable-sidebar, --enable-nntp, --disable-dotlock, --disable-fmemopen, --with-curses, --with-gnutls, --with-gss, --with-idn, --with-mixmaster, --with-sasl, --without-gdbm, --without-bdb, --without-qdbm]
     build-packages:
       - docbook-xml
       - docbook-xsl
       - gawk
       - gettext
       - libgnutls28-dev
-      - libgpgme11-dev
-      - libidn11-dev
+      - libgpgme-dev
+      - libidn-dev
       - libkrb5-dev
-      - libncurses5-dev
-      - libncursesw5-dev
+      - libncurses-dev
       - libsasl2-dev
       - libtokyocabinet-dev
       - pkg-config
@@ -65,17 +64,6 @@ parts:
       - libassuan0
       - libgpgme11
       - libgpm2
+      - libidn12
       - libsasl2-2
       - libtokyocabinet9
-
-    override-pull: |
-      snapcraftctl pull
-      last_committed_tag="$(git describe --tags --abbrev=0)"
-      last_released_tag="$(snap info mutt | awk '$1 == "latest/beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-      fi
-      snapcraftctl set-version "$(git describe --tags | sed 's/mutt\-//g')"
