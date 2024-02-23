@@ -49,9 +49,8 @@ architectures:
 apps:
   mutt:
     environment:
-      HOME: "$SNAP_USER_COMMON"
       TERMINFO_DIRS: $SNAP/lib/terminfo:$SNAP/usr/share/terminfo
-    command: usr/local/bin/mutt
+    command: bin/mutt-wrapper
     plugs:
       - network
       - home
@@ -142,3 +141,8 @@ parts:
       tic -xe alacritty,alacritty-direct $CRAFT_PART_SRC/alacritty.info -o .
       mkdir -p $CRAFT_PRIME/lib/terminfo/a/
       cp a/alacritty* $CRAFT_PRIME/lib/terminfo/a/
+
+  local-parts:
+    plugin: dump
+    source: ./snap/local
+    source-type: local

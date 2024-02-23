@@ -23,6 +23,14 @@ snap install mutt
 
 <p align="center">Published for <img src="https://raw.githubusercontent.com/anythingcodes/slack-emoji-for-techies/gh-pages/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
 
+## Snap Configuration
+
+| option          | default | description                                                                                                                                                                                                                 |
+| --------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `use-real-home` | `false` | If set to `true`, `mutt` will look for configuration in your home directory in either `$HOME/.muttrc`, `$HOME/.mutt` or `$HOME/.config/mutt`, rather than using configuration stored inside the Snap's user data directory. |
+
+You can change Snap configuration by running `snap set mutt <key>=<value>`. For example, `snap set mutt use-real-home=true`.
+
 ## How to contribute to this snap
 
 Thanks for your interest! Below you find instructions to help you contribute to this snap.
