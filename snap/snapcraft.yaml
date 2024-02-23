@@ -55,6 +55,15 @@ apps:
     plugs:
       - network
       - home
+      - dot-mutt
+
+plugs:
+  dot-mutt:
+    interface: personal-files
+    write:
+      - $HOME/.mutt
+      - $HOME/.muttrc
+      - $HOME/.config/mutt
 
 parts:
   mutt:
