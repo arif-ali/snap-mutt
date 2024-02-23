@@ -1,26 +1,50 @@
 name: mutt
-summary: Mutt
+version: 2-2-12-rel
+summary: Mutt is a sophisticated text-based Mail User Agent
 description: |
   Mutt is a sophisticated text-based Mail User Agent. Some highlights
-  * MIME support (including RFC1522 encoding/decoding of 8-bit message
-    headers and UTF-8 support).
-  * PGP/MIME support (RFC 2015).
-  * Advanced IMAP client supporting SSL encryption and SASL authentication.
-  * POP3 support.
-  * ESMTP support.
-  * Message threading (both strict and non-strict).
-  * Keybindings are configurable, default keybindings are much like ELM;
-    Mush and PINE-like ones are provided as examples.
-  * Handles MMDF, MH and Maildir in addition to regular mbox format.
-  * Messages may be (indefinitely) postponed.
-  * Colour support.
-  * Highly configurable through easy but powerful rc file.
-  * Support for compressed mailboxes.
-  * An optional Sidebar.
+    * MIME support (including RFC1522 encoding/decoding of 8-bit message
+      headers and UTF-8 support).
+    * PGP/MIME support (RFC 2015).
+    * Advanced IMAP client supporting SSL encryption and SASL authentication.
+    * POP3 support.
+    * ESMTP support.
+    * Message threading (both strict and non-strict).
+    * Keybindings are configurable, default keybindings are much like ELM;
+      Mush and PINE-like ones are provided as examples.
+    * Handles MMDF, MH and Maildir in addition to regular mbox format.
+    * Messages may be (indefinitely) postponed.
+    * Colour support.
+    * Highly configurable through easy but powerful rc file.
+    * Support for compressed mailboxes.
+    * An optional Sidebar.
+
+  **Are you having issues?**
+
+  Let us know by creating a new issue here:
+  https://github.com/snapcrafters/mutt/issues
+
+  **Authors**
+
+  This snap is maintained by the Snapcrafters community, and is not
+  necessarily endorsed or officially maintained by the upstream developers.
+
+contact: https://github.com/snapcrafters/mutt/issues
+issues: https://github.com/snapcrafters/mutt/issues
+source-code: https://github.com/snapcrafters/mutt
+website: https://mutt.org
+icon: snap/mutt.png
+
 base: core22
 grade: stable
 confinement: strict
-version: 2-2-12-rel
+
+architectures:
+  - build-on: amd64
+  - build-on: armhf
+  - build-on: arm64
+  - build-on: s390x
+  - build-on: ppc64el
 
 apps:
   mutt:
@@ -37,7 +61,29 @@ parts:
     source: https://gitlab.com/muttmua/mutt.git
     source-type: git
     source-tag: mutt-$SNAPCRAFT_PROJECT_VERSION
-    autotools-configure-parameters: [--enable-compressed, --enable-debug, --enable-fcntl, --enable-hcache, --enable-gpgme, --enable-lua, --enable-imap, --enable-smtp, --enable-pop, --enable-sidebar, --enable-nntp, --disable-dotlock, --disable-fmemopen, --with-curses, --with-gnutls, --with-gss, --with-idn, --with-mixmaster, --with-sasl, --without-gdbm, --without-bdb, --without-qdbm]
+    autotools-configure-parameters:
+      - --enable-compressed
+      - --enable-debug
+      - --enable-fcntl
+      - --enable-hcache
+      - --enable-gpgme
+      - --enable-lua
+      - --enable-imap
+      - --enable-smtp
+      - --enable-pop
+      - --enable-sidebar
+      - --enable-nntp
+      - --disable-dotlock
+      - --disable-fmemopen
+      - --with-curses
+      - --with-gnutls
+      - --with-gss
+      - --with-idn
+      - --with-mixmaster
+      - --with-sasl
+      - --without-gdbm
+      - --without-bdb
+      - --without-qdbm
     build-packages:
       - docbook-xml
       - docbook-xsl
