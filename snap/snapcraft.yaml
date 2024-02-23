@@ -130,7 +130,6 @@ parts:
       - kitty-terminfo
     override-stage: |
       craftctl default
-      ls -la
       tic -xe alacritty,alacritty-direct $CRAFT_PART_SRC/alacritty.info -o .
       mkdir -p $CRAFT_PRIME/lib/terminfo/a/
       cp a/alacritty* $CRAFT_PRIME/lib/terminfo/a/
