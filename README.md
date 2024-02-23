@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://www.mutt.org/org/artwork/images/mutt_ide_logo.png" alt="Mutt">
+  <img src="./snap/mutt.png" alt="Mutt">
 </h1>
 
 <p align="center"><b>This is the snap for Mutt</b>. It is a community-maintained package to easily install Mutt on Ubuntu, Fedora, Debian and other major Linux distributions. It is available in the Snap Store, Ubuntu Software, and a number of other applications.</p>
