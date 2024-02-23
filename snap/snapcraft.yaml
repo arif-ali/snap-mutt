@@ -101,7 +101,7 @@ parts:
       - xsltproc
       - zlib1g-dev
     stage:
-      - -bin/mutt_dotlock
+      - -usr/local/bin/mutt_dotlock
     stage-packages:
       - vim-tiny
       - vim
