@@ -50,6 +50,7 @@ apps:
   mutt:
     environment:
       HOME: "$SNAP_USER_COMMON"
+      TERMINFO_DIRS: $SNAP/lib/terminfo:$SNAP/usr/share/terminfo
     command: usr/local/bin/mutt
     plugs:
       - network
@@ -103,9 +104,6 @@ parts:
     stage:
       - -usr/local/bin/mutt_dotlock
     stage-packages:
-      - vim-tiny
-      - vim
-      - nano
       - emacs-nox
       - libassuan0
       - libgpgme11
@@ -113,3 +111,26 @@ parts:
       - libidn12
       - libsasl2-2
       - libtokyocabinet9
+      - locales-all
+      - nano
+      - vim
+      - vim-tiny
+
+  terminfos:
+    plugin: nil
+    override-pull: |
+      wget -q https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info
+    build-packages:
+      - wget
+    stage-packages:
+      - ncurses-bin
+      - ncurses-base
+      - terminfo
+      - foot-terminfo
+      - kitty-terminfo
+    override-stage: |
+      craftctl default
+      ls -la
+      tic -xe alacritty,alacritty-direct $CRAFT_PART_SRC/alacritty.info -o .
+      mkdir -p $CRAFT_PRIME/lib/terminfo/a/
+      cp a/alacritty* $CRAFT_PRIME/lib/terminfo/a/
