@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Run the configure hook which sets defaults for any config options
+"${SNAP}/snap/hooks/configure"
+
+export HOME="$SNAP_USER_COMMON"
+
+use_real_home="$(snapctl get use-real-home)"
+if [[ "${use_real_home}" == "true" ]]; then
+    export HOME="$SNAP_REAL_HOME"
+fi
+
+exec "${SNAP}/usr/local/bin/mutt" "$@"
